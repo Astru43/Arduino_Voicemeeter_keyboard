@@ -69,8 +69,8 @@ namespace Tester {
                 while (port.BytesToRead < 0) Thread.Sleep(1);
 
                 port.Read(buffer, 0, 1);
-                if (buffer[0] == 0x04) {
-                    oHandler.PostQuit(buffer[0]);
+                if (buffer[0] == 0x0c) {
+                    oHandler.PostQuit();
                     Console.WriteLine("0x" + buffer[0].ToString("X"));
                     break;
                 }
@@ -78,8 +78,6 @@ namespace Tester {
                 oHandler.AddCmd(buffer[0]);
                 if ((buffer[0]&0x20) == 0x0) Console.WriteLine("");
             }
-            buffer[1] = 0x84;
-            port.Write(buffer, 1, 1);
             port.Close();
         }
     }
