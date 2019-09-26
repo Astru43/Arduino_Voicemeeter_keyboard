@@ -14,7 +14,7 @@ void setup() {
   TCCR2A |= (1 << WGM21);
   TCCR2B |= (1 << CS22);
   TIMSK2 |= (1 << OCIE2A);
-
+  //testtesttest
   sei();
   for(int i = 0;i<2;i++)
   pinMode(pins[i], OUTPUT);
