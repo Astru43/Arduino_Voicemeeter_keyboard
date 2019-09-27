@@ -8,8 +8,8 @@ namespace Tester {
     class OutputHandler {
         VmClient vm;
         float nVal;
-        List<byte> cmd = new List<byte>();
-        System.Timers.Timer tr = new System.Timers.Timer(10);
+        readonly List<byte> cmd = new List<byte>();
+        readonly System.Timers.Timer tr = new System.Timers.Timer(10);
 
         private enum Mode {
             ON = 1,
@@ -136,7 +136,7 @@ namespace Tester {
         }
 
         private void OnTime(object sender, ElapsedEventArgs e) {
-            bool val = vm.Poll();
+            _ = vm.Poll();
         }
 
         private void VolumeUp(float val) {

@@ -7,7 +7,7 @@ namespace Tester {
 
         public SerialPort port;
         public bool portFound = false;
-        private OutputHandler oHandler;
+        private readonly OutputHandler oHandler;
 
         public Serial(ref OutputHandler oHandler) {
             this.oHandler = oHandler;

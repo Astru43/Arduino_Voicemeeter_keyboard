@@ -14,7 +14,7 @@ namespace Tester {
         static OutputHandler oHandler;
         static Thread outputThread;
 
-        static void Main(string[] args) {
+        static void Main() {
             Console.Title = "Mixer controller";
 
             oHandler = new OutputHandler();
