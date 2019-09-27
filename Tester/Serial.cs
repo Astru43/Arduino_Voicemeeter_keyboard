@@ -74,9 +74,9 @@ namespace Tester {
                     Console.WriteLine("0x" + buffer[0].ToString("X"));
                     break;
                 }
-                Console.WriteLine("0x" + buffer[0].ToString("X"));
+                //Console.WriteLine("0x" + buffer[0].ToString("X"));
                 oHandler.AddCmd(buffer[0]);
-                if ((buffer[0]&0x20) == 0x0) Console.WriteLine("");
+                //if ((buffer[0]&0x20) == 0x0) Console.WriteLine("");
             }
             port.Close();
         }

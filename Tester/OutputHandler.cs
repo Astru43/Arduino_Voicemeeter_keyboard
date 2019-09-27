@@ -39,6 +39,7 @@ namespace Tester {
             }
         }
         VolumeLane vL = new VolumeLane();
+        private int vol = 3;
 
         public void Main() {
             tr.Elapsed += OnTime;
@@ -64,10 +65,16 @@ namespace Tester {
                         SwitchMode();
                         break;
                     case 0x22:
-                        VolumeUp(3);
+                        VolumeUp(vol);
                         break;
                     case 0x21:
-                        VolumeDown(3);
+                        VolumeDown(vol);
+                        break;
+                    case 0x26:
+                        vm.SetParam("Command.Restart", 1.0f);
+                        break;
+                    case 0x25:
+                        vol = vol == 3 ? 1 : 3;
                         break;
                 }
                 cmd.RemoveAt(0);
@@ -95,6 +102,7 @@ namespace Tester {
                     } else vL.cVol = VolumeLane.Vol.Strip7;
                     break;
             }
+            Console.WriteLine(vL.cVol + "\n");
         }
 
         private void SwitchMute() {
@@ -136,7 +144,7 @@ namespace Tester {
             Console.WriteLine(nVal);
 
             nVal += val;
-            Console.WriteLine(nVal);
+            Console.WriteLine(nVal + "\n");
             vm.SetParam(vL.GetLane(), nVal);
             Thread.Sleep(20);
         }
@@ -146,7 +154,7 @@ namespace Tester {
             Console.WriteLine(nVal);
 
             nVal -= val;
-            Console.WriteLine(nVal);
+            Console.WriteLine(nVal + "\n");
             vm.SetParam(vL.GetLane(), nVal);
             Thread.Sleep(20);
         }

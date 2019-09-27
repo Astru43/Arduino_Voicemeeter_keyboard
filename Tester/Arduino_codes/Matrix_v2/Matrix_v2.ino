@@ -68,7 +68,11 @@ ISR(TIMER2_COMPA_vect) {
 				lastState = state;
 			}
 		} else {
-			break;
+			if (lastPress == 0) {
+				buffer[0] = (0x03 | 0x20);
+				lastPress = 0x03;
+				lastState = state;
+			}
 		}
 		break;
 	case 0xdf:
@@ -79,7 +83,11 @@ ISR(TIMER2_COMPA_vect) {
 				lastState = state;
 			}
 		} else {
-			break;
+			if (lastPress == 0) {
+				buffer[0] = (0x04 | 0x20);
+				lastPress = 0x04;
+				lastState = state;
+			}
 		}
 		break;
 	case 0xbf:
@@ -90,7 +98,11 @@ ISR(TIMER2_COMPA_vect) {
 				lastState = state;
 			}
 		} else {
-			break;
+			if (lastPress == 0) {
+				buffer[0] = (0x05 | 0x20);
+				lastPress = 0x05;
+				lastState = state;
+			}
 		}
 		break;
 	case 0x7f:
@@ -101,7 +113,11 @@ ISR(TIMER2_COMPA_vect) {
 				lastState = state;
 			}
 		} else {
-			break;
+			if (lastPress == 0) {
+				buffer[0] = (0x06 | 0x20);
+				lastPress = 0x06;
+				lastState = state;
+			}
 		}
 		break;
 	default:
