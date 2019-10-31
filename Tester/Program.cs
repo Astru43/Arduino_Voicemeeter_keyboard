@@ -15,7 +15,7 @@ namespace Tester {
         static Thread outputThread;
 
         static void Main() {
-            Console.Title = "Mixer controller";
+            //Console.Title = "Mixer controller";
 
             oHandler = new OutputHandler();
             serial = new Serial(ref oHandler);

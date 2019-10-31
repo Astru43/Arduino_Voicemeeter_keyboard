@@ -30,6 +30,7 @@ namespace VoiceMeeterWrapper {
 
 
     public class VmClient : IDisposable {
+        public string LastResult;
         private Action _onClose = null;
         private string GetVoicemeeterDir() {
             const string regKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall";
@@ -45,17 +46,20 @@ namespace VoiceMeeterWrapper {
             //Find Voicemeeter dir.
             var vmDir = GetVoicemeeterDir();
             VoiceMeeterRemote.LoadDll(System.IO.Path.Combine(vmDir, "VoicemeeterRemote64.dll"));
-                var lr = VoiceMeeterRemote.Login();
+            var lr = VoiceMeeterRemote.Login();
             switch (lr) {
                 case VbLoginResponse.OK:
                     Console.WriteLine("Attached.");
+                    LastResult = "OK";
                     break;
                 case VbLoginResponse.AlreadyLoggedIn:
                     Console.WriteLine("Attached. Was already logged in");
+                    LastResult = "Already Logged In";
                     break;
                 case VbLoginResponse.OkVoicemeeterNotRunning:
                     //Launch.
                     Console.WriteLine("Attached. VM Not running.");
+                    LastResult = "Ok Voicemeeter Not Running";
                     break;
                 default:
                     throw new InvalidOperationException("Bad response from voicemeeter: " + lr);
