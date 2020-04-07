@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Timers;
+using System.Windows.Forms;
 using VoiceMeeterWrapper;
 
 namespace Tester {
@@ -22,11 +23,12 @@ namespace Tester {
                 Strip7 = 0x2b,
                 Strip6 = 0x2a,
                 Strip5 = 0x29,
-                Music = 0x00
+                Music = 0xff
+
             }
             public Vol cVol;
             public string GetLane() {
-                switch(cVol) {
+                switch (cVol) {
                     case Vol.Strip5:
                         return "Strip(5).Gain";
                     case Vol.Strip6:
@@ -40,6 +42,11 @@ namespace Tester {
         }
         VolumeLane vL = new VolumeLane();
         private int vol = 3;
+        private readonly NotifyIcon nIcon;
+
+        public OutputHandler(ref NotifyIcon nIcon) {
+            this.nIcon = nIcon;
+        }
 
         public void Main() {
             tr.Elapsed += OnTime;
@@ -73,7 +80,7 @@ namespace Tester {
                     case 0x26:
                         vm.SetParam("Command.Restart", 1.0f);
                         break;
-                    case 0x25:
+                    case 0x23:
                         vol = vol == 3 ? 1 : 3;
                         break;
                 }
@@ -85,7 +92,7 @@ namespace Tester {
         }
 
         private void SwitchVolOutput(byte v) {
-            switch(v) {
+            switch (v) {
                 case 0x29:
                     if (vL.cVol == VolumeLane.Vol.Strip5) {
                         vL.cVol = VolumeLane.Vol.Music;
@@ -99,7 +106,11 @@ namespace Tester {
                 case 0x2b:
                     if (vL.cVol == VolumeLane.Vol.Strip7) {
                         vL.cVol = VolumeLane.Vol.Music;
-                    } else vL.cVol = VolumeLane.Vol.Strip7;
+                        //nIcon.Icon = new System.Drawing.Icon("Icons\\O-5.ico");
+                    } else {
+                        vL.cVol = VolumeLane.Vol.Strip7;
+                        //nIcon.Icon = new System.Drawing.Icon("Icons\\I-8.ico");
+                    }
                     break;
             }
             Console.WriteLine(vL.cVol + "\n");

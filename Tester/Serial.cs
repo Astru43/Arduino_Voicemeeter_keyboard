@@ -5,6 +5,7 @@ using System.IO.Ports;
 namespace Tester {
     class Serial {
 
+        bool quit = false;
         public SerialPort port;
         public bool portFound = false;
         private readonly OutputHandler oHandler;
@@ -56,6 +57,8 @@ namespace Tester {
             }
         }
 
+        internal void Quit() => quit = true;
+
         internal void ComMain() {
             GetSerialPort();
             Byte[] buffer = new byte[2];
@@ -66,17 +69,25 @@ namespace Tester {
             Thread.Sleep(100);
 
             while (true) {
-                while (port.BytesToRead < 0) Thread.Sleep(1);
+                try {
+                    while (port.BytesToRead <= 0 && !quit) Thread.Sleep(1);
 
-                port.Read(buffer, 0, 1);
-                if (buffer[0] == 0x0c) {
-                    oHandler.PostQuit();
-                    Console.WriteLine("0x" + buffer[0].ToString("X"));
-                    break;
+                    if (quit) break;
+
+                    port.Read(buffer, 0, 1);
+                    if (buffer[0] == 0x0c) {
+                        oHandler.PostQuit();
+                        Console.WriteLine("0x" + buffer[0].ToString("X"));
+                        break;
+                    }
+                    //Console.WriteLine("0x" + buffer[0].ToString("X"));
+                    oHandler.AddCmd(buffer[0]);
+                    //if ((buffer[0]&0x20) == 0x0) Console.WriteLine("");
+                } catch (InvalidOperationException) {
+                    portFound = false;
+                    GetSerialPort();
+                    if (!port.IsOpen) port.Open();
                 }
-                //Console.WriteLine("0x" + buffer[0].ToString("X"));
-                oHandler.AddCmd(buffer[0]);
-                //if ((buffer[0]&0x20) == 0x0) Console.WriteLine("");
             }
             port.Close();
         }
