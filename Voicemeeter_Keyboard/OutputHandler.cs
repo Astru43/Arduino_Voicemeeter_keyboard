@@ -134,11 +134,13 @@ namespace Voicemeeter_Keyboard {
                 vm.SetParam("Strip(6).EQGain1", 8.0f);
                 vm.SetParam("Strip(6).EQGain2", 4.0f);
                 vm.SetParam("Bus(0).ReturnReverb", 3.4f);
+                vm.SetParam("Bus(4).EQ.on", 1.0f);
                 _m = Mode.ON;
             } else if (_m == Mode.ON) {
                 vm.SetParam("Strip(6).EQGain1", 0.0f);
                 vm.SetParam("Strip(6).EQGain2", 0.0f);
                 vm.SetParam("Bus(0).ReturnReverb", 0.0f);
+                vm.SetParam("Bus(4).EQ.on", 0.0f);
                 _m = Mode.OFF;
             }
             Thread.Sleep(20);
