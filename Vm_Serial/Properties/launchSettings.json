@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "Vm_Serial": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
