@@ -30,7 +30,9 @@ namespace VoiceMeeterWrapper {
 
 
     public class VmClient : IDisposable {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         private Action _onClose = null;
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         private string GetVoicemeeterDir() {
             const string regKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall";
             const string uninstKey = "VB:Voicemeeter {17359A74-1236-5467}";
@@ -39,13 +41,15 @@ namespace VoiceMeeterWrapper {
             if (k == null) {
                 throw new Exception("Voicemeeter not found");
             }
+#pragma warning disable CS8603 // Possible null reference return.
             return System.IO.Path.GetDirectoryName(k.ToString());
+#pragma warning restore CS8603 // Possible null reference return.
         }
         public VmClient() {
             //Find Voicemeeter dir.
             var vmDir = GetVoicemeeterDir();
             VoiceMeeterRemote.LoadDll(System.IO.Path.Combine(vmDir, "VoicemeeterRemote64.dll"));
-                var lr = VoiceMeeterRemote.Login();
+            var lr = VoiceMeeterRemote.Login();
             switch (lr) {
                 case VbLoginResponse.OK:
                     Console.WriteLine("Attached.");

@@ -10,10 +10,10 @@ using Timer = System.Timers.Timer;
 
 namespace Voicemeeter_Keyboard {
     class OutputHandler {
-        VmClient vm;
+        readonly VmClient vm = new();
         float nVal;
-        readonly List<byte> cmd = new List<byte>();
-        readonly Timer tr = new Timer(10);
+        readonly List<byte> cmd = new();
+        readonly Timer tr = new(10);
 
         private enum Mode {
             ON = 1,
@@ -31,16 +31,12 @@ namespace Voicemeeter_Keyboard {
             }
             public Vol cVol;
             public string GetLane() {
-                switch (cVol) {
-                    case Vol.Strip5:
-                        return "Strip(5).Gain";
-                    case Vol.Strip6:
-                        return "Strip(6).Gain";
-                    case Vol.Strip7:
-                        return "Strip(7).Gain";
-                    default:
-                        return "Bus(4).Gain";
-                }
+                return cVol switch {
+                    Vol.Strip5 => "Strip(5).Gain",
+                    Vol.Strip6 => "Strip(6).Gain",
+                    Vol.Strip7 => "Strip(7).Gain",
+                    _ => "Bus(4).Gain",
+                };
             }
         }
         VolumeLane vL = new VolumeLane();
@@ -48,7 +44,7 @@ namespace Voicemeeter_Keyboard {
 
         public void Main() {
             tr.Elapsed += OnTime;
-            vm = new VmClient();
+            // vm = new VmClient();
             tr.AutoReset = true;
             tr.Enabled = true;
             vL.cVol = VolumeLane.Vol.Music;
@@ -146,7 +142,7 @@ namespace Voicemeeter_Keyboard {
             Thread.Sleep(20);
         }
 
-        private void OnTime(object sender, ElapsedEventArgs e) {
+        private void OnTime(object? sender, ElapsedEventArgs e) {
             _ = vm.Poll();
         }
 
